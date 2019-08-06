@@ -9,9 +9,9 @@ import (
 
 var leadModel = new(models.LeadModels)
 
-type LeadController struct {}
+type LeadController struct{}
 
-func (m *LeadController)LeadListing (c* gin.Context){
+func (m *LeadController) LeadListing(c *gin.Context) {
 
 	response := responseStruct
 
@@ -23,13 +23,13 @@ func (m *LeadController)LeadListing (c* gin.Context){
 
 	if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = leadModel.LeadListing(id_cms_users,id_lead_mst_status,favorite,limit,offset)
+	} else {
+		response = leadModel.LeadListing(id_cms_users, id_lead_mst_status, favorite, limit, offset)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadListingVisit (c* gin.Context){
+func (m *LeadController) LeadListingVisit(c *gin.Context) {
 
 	response := responseStruct
 
@@ -40,13 +40,13 @@ func (m *LeadController)LeadListingVisit (c* gin.Context){
 
 	if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = leadModel.LeadListingVisit(types,id_cms_users,limit,offset)
+	} else {
+		response = leadModel.LeadListingVisit(types, id_cms_users, limit, offset)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadUpdateFav (c* gin.Context){
+func (m *LeadController) LeadUpdateFav(c *gin.Context) {
 
 	response := responseStruct
 
@@ -56,17 +56,17 @@ func (m *LeadController)LeadUpdateFav (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else if favorite == ""{
+	} else if favorite == "" {
 		response.ApiMessage = "favorite required"
-	}else if updated_by == ""{
+	} else if updated_by == "" {
 		response.ApiMessage = "updated_by required"
-	}else{
-		response = leadModel.LeadUpdateFav(id,favorite,updated_by)
+	} else {
+		response = leadModel.LeadUpdateFav(id, favorite, updated_by)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadUpdateHapus (c* gin.Context){
+func (m *LeadController) LeadUpdateHapus(c *gin.Context) {
 
 	response := responseStruct
 
@@ -75,15 +75,15 @@ func (m *LeadController)LeadUpdateHapus (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else if updated_by == ""{
+	} else if updated_by == "" {
 		response.ApiMessage = "updated_by required"
-	}else{
-		response = leadModel.LeadUpdateHapus(id,updated_by)
+	} else {
+		response = leadModel.LeadUpdateHapus(id, updated_by)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadDetailTotal (c* gin.Context){
+func (m *LeadController) LeadDetailTotal(c *gin.Context) {
 
 	response := responseStruct
 
@@ -92,15 +92,15 @@ func (m *LeadController)LeadDetailTotal (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = leadModel.DetailLeadTotal(id,id_cms_users)
+	} else {
+		response = leadModel.DetailLeadTotal(id, id_cms_users)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadDetail (c* gin.Context){
+func (m *LeadController) LeadDetail(c *gin.Context) {
 
 	response := responseStruct
 
@@ -108,13 +108,13 @@ func (m *LeadController)LeadDetail (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else{
+	} else {
 		response = leadModel.DetailLead(id)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadLog (c* gin.Context){
+func (m *LeadController) LeadLog(c *gin.Context) {
 
 	response := responseStruct
 
@@ -123,15 +123,15 @@ func (m *LeadController)LeadLog (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = leadModel.LeadLog(id,id_cms_users)
+	} else {
+		response = leadModel.LeadLog(id, id_cms_users)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadVisum (c* gin.Context){
+func (m *LeadController) LeadVisum(c *gin.Context) {
 
 	response := responseStruct
 
@@ -140,15 +140,15 @@ func (m *LeadController)LeadVisum (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = leadModel.LeadVisum(id,id_cms_users)
+	} else {
+		response = leadModel.LeadVisum(id, id_cms_users)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadNote (c* gin.Context){
+func (m *LeadController) LeadNote(c *gin.Context) {
 
 	response := responseStruct
 
@@ -157,15 +157,15 @@ func (m *LeadController)LeadNote (c* gin.Context){
 
 	if id == "" {
 		response.ApiMessage = "id required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = leadModel.LeadNote(id,id_cms_users)
+	} else {
+		response = leadModel.LeadNote(id, id_cms_users)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadLogCreate(c*gin.Context){
+func (m *LeadController) LeadLogCreate(c *gin.Context) {
 
 	response := responseStruct
 
@@ -180,27 +180,27 @@ func (m *LeadController)LeadLogCreate(c*gin.Context){
 
 	if id_lead == "" {
 		response.ApiMessage = "id_lead required"
-	}else if duration == ""{
+	} else if duration == "" {
 		response.ApiMessage = "duration required"
-	}else if id_mst_log_desc == ""{
+	} else if id_mst_log_desc == "" {
 		response.ApiMessage = "id_mst_log_desc required"
-	}else if recall == ""{
+	} else if recall == "" {
 		response.ApiMessage = "recall required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if id_modul == ""{
+	} else if id_modul == "" {
 		response.ApiMessage = "id_modul required"
-	}else if id_data == ""{
+	} else if id_data == "" {
 		response.ApiMessage = "id_data required"
-	}else if jenis == ""{
+	} else if jenis == "" {
 		response.ApiMessage = "jenis required"
-	}else{
-		response = leadModel.LeadLogCreate(id_lead,duration,id_mst_log_desc,recall,id_cms_users,id_modul,id_data,jenis)
+	} else {
+		response = leadModel.LeadLogCreate(id_lead, duration, id_mst_log_desc, recall, id_cms_users, id_modul, id_data, jenis)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadNoteCreate(c*gin.Context){
+func (m *LeadController) LeadNoteCreate(c *gin.Context) {
 
 	response := responseStruct
 
@@ -210,17 +210,17 @@ func (m *LeadController)LeadNoteCreate(c*gin.Context){
 
 	if id_lead == "" {
 		response.ApiMessage = "id_lead required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if note == ""{
+	} else if note == "" {
 		response.ApiMessage = "jenis required"
-	}else{
-		response = leadModel.LeadNoteCreate(id_lead,id_cms_users,note)
+	} else {
+		response = leadModel.LeadNoteCreate(id_lead, id_cms_users, note)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadVisumCreate(c*gin.Context){
+func (m *LeadController) LeadVisumCreate(c *gin.Context) {
 
 	response := responseStruct
 
@@ -232,21 +232,21 @@ func (m *LeadController)LeadVisumCreate(c*gin.Context){
 
 	if id_lead == "" {
 		response.ApiMessage = "id_lead required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if revisit == ""{
+	} else if revisit == "" {
 		response.ApiMessage = "revisit required"
-	}else if id_mst_visum_status == ""{
+	} else if id_mst_visum_status == "" {
 		response.ApiMessage = "id_mst_visum_status required"
-	}else if file == nil || header == nil{
+	} else if file == nil || header == nil {
 		response.ApiMessage = "photo required"
-	}else{
-		response = leadModel.LeadVisumCreate(id_lead,id_cms_users,revisit,id_mst_visum_status,file,header)
+	} else {
+		response = leadModel.LeadVisumCreate(id_lead, id_cms_users, revisit, id_mst_visum_status, file, header)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadCheckPhoneNewDB(c*gin.Context){
+func (m *LeadController) LeadCheckPhoneNewDB(c *gin.Context) {
 
 	response := responseStruct
 
@@ -254,10 +254,10 @@ func (m *LeadController)LeadCheckPhoneNewDB(c*gin.Context){
 
 	response = leadModel.LeadPhoneCheckNewDB(number)
 
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadCreate(c*gin.Context){
+func (m *LeadController) LeadCreate(c *gin.Context) {
 
 	response := responseStruct
 
@@ -279,37 +279,36 @@ func (m *LeadController)LeadCreate(c*gin.Context){
 	address := c.PostForm("address")
 	address_bool := c.PostForm("address_bool")
 	product_bool := c.PostForm("product_bool")
-
 
 	if id_mst_outlet == "" {
 		response.ApiMessage = "id_mst_outlet required"
-	}else if id_mst_data_source == ""{
+	} else if id_mst_data_source == "" {
 		response.ApiMessage = "id_mst_data_source required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if first_name == ""{
+	} else if first_name == "" {
 		response.ApiMessage = "first_name required"
-	}else if id_mst_job == ""{
+	} else if id_mst_job == "" {
 		response.ApiMessage = "id_mst_job required"
-	}else if id_lead_mst_status == ""{
+	} else if id_lead_mst_status == "" {
 		response.ApiMessage = "id_lead_mst_status required"
-	}else if address_bool == ""{
+	} else if address_bool == "" {
 		response.ApiMessage = "address_bool required"
-	}else if product_bool == ""{
+	} else if product_bool == "" {
 		response.ApiMessage = "product_bool required"
-	}else{
+	} else {
 
-		address_bool_c , _ := strconv.ParseBool(address_bool)
-		product_bool_c , _ := strconv.ParseBool(product_bool)
+		address_bool_c, _ := strconv.ParseBool(address_bool)
+		product_bool_c, _ := strconv.ParseBool(product_bool)
 
-		response = leadModel.LeadCreate(id_mst_outlet,id_mst_data_source,id_cms_users,
-			first_name,last_name,id_mst_job,id_lead_mst_status,number,id_mst_address,id_mst_category_address,
-			id_mst_product,id_mst_unit,nopol,tax_status,owner,address,address_bool_c,product_bool_c)
+		response = leadModel.LeadCreate(id_mst_outlet, id_mst_data_source, id_cms_users,
+			first_name, last_name, id_mst_job, id_lead_mst_status, number, id_mst_address, id_mst_category_address,
+			id_mst_product, id_mst_unit, nopol, tax_status, owner, address, address_bool_c, product_bool_c)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadUpdate(c*gin.Context){
+func (m *LeadController) LeadUpdate(c *gin.Context) {
 
 	response := responseStruct
 
@@ -333,56 +332,84 @@ func (m *LeadController)LeadUpdate(c*gin.Context){
 	address_bool := c.PostForm("address_bool")
 	product_bool := c.PostForm("product_bool")
 
-
-	if id_lead == ""{
+	if id_lead == "" {
 		response.ApiMessage = "id_lead required"
-	}else if id_mst_outlet == "" {
+	} else if id_mst_outlet == "" {
 		response.ApiMessage = "id_mst_outlet required"
-	}else if id_mst_data_source == ""{
+	} else if id_mst_data_source == "" {
 		response.ApiMessage = "id_mst_data_source required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if first_name == ""{
+	} else if first_name == "" {
 		response.ApiMessage = "first_name required"
-	}else if id_mst_job == ""{
+	} else if id_mst_job == "" {
 		response.ApiMessage = "id_mst_job required"
-	}else if id_lead_mst_status == ""{
+	} else if id_lead_mst_status == "" {
 		response.ApiMessage = "id_lead_mst_status required"
-	}else if address_bool == ""{
+	} else if address_bool == "" {
 		response.ApiMessage = "address_bool required"
-	}else if product_bool == ""{
+	} else if product_bool == "" {
 		response.ApiMessage = "product_bool required"
-	}else{
+	} else {
 
-		address_bool_c , _ := strconv.ParseBool(address_bool)
-		product_bool_c , _ := strconv.ParseBool(product_bool)
+		address_bool_c, _ := strconv.ParseBool(address_bool)
+		product_bool_c, _ := strconv.ParseBool(product_bool)
 
-		response = leadModel.LeadUpdate(id_lead,id_mst_outlet,id_mst_data_source,id_cms_users,
-			first_name,last_name,id_mst_job,id_lead_mst_status,number,id_mst_address,id_mst_category_address,
-			id_mst_product,id_mst_unit,nopol,tax_status,owner,address,address_bool_c,product_bool_c)
+		response = leadModel.LeadUpdate(id_lead, id_mst_outlet, id_mst_data_source, id_cms_users,
+			first_name, last_name, id_mst_job, id_lead_mst_status, number, id_mst_address, id_mst_category_address,
+			id_mst_product, id_mst_unit, nopol, tax_status, owner, address, address_bool_c, product_bool_c)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *LeadController)LeadColabCreate(c *gin.Context){
+func (m *LeadController) LeadColabCreate(c *gin.Context) {
 
 	response := responseStruct
 
 	id_lead := c.PostForm("id_lead")
 	id_cms_users := c.PostForm("id_cms_users")
 
-	if id_lead == ""{
+	if id_lead == "" {
 
 		response.ApiMessage = "id_lead required"
-	}else if id_cms_users == ""{
+	} else if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
+	} else {
 
-		response = leadModel.LeadCollabCreate(id_lead,id_cms_users)
+		response = leadModel.LeadCollabCreate(id_lead, id_cms_users)
 	}
 
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 }
 
+func (m *LeadController) LeadListingCollab(c *gin.Context) {
 
+	response := responseStruct
 
+	id_cms_users := c.Query("id_cms_users")
+	limit := c.Query("limit")
+	offset := c.Query("offset")
+
+	if id_cms_users == "" {
+		response.ApiMessage = "id_cms_users required"
+	} else {
+		response = leadModel.LeadCollabList(id_cms_users, limit, offset)
+	}
+	c.JSON(http.StatusOK, response)
+
+}
+func (m *LeadController) LeadSearch(c *gin.Context) {
+
+	response := responseStruct
+
+	id_cms_users := c.Query("id_cms_users")
+	search := c.Query("first_name")
+
+	if id_cms_users == "" {
+		response.ApiMessage = "id_cms_users required"
+	} else {
+		response = leadModel.LeadSearch(id_cms_users, search)
+	}
+	c.JSON(http.StatusOK, response)
+
+}
