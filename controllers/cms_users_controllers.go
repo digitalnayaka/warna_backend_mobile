@@ -1,18 +1,19 @@
 package controllers
 
 import (
+	"../models"
+	"../structs"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"../models"
 )
 
 var cmsUserModel = new(models.CmsUser)
 
-type CmsUserController struct {}
+type CmsUserController struct{}
 
-func (m *CmsUserController)Login (c* gin.Context){
+func (m *CmsUserController) Login(c *gin.Context) {
 
-	response := responseStruct
+	response := structs.JsonResponseToken{}
 
 	npm := c.PostForm("npm")
 	password := c.PostForm("password")
@@ -20,45 +21,44 @@ func (m *CmsUserController)Login (c* gin.Context){
 	user_agent := c.PostForm("user_agent")
 	version := c.PostForm("version")
 
-	if npm == ""{
+	if npm == "" {
 
 		response.ApiMessage = "npm required"
-	}else if password == ""{
+	} else if password == "" {
 
 		response.ApiMessage = "password required"
-	}else if device_id == ""{
+	} else if device_id == "" {
 		response.ApiMessage = "device_id required"
-	}else if user_agent == ""{
+	} else if user_agent == "" {
 		response.ApiMessage = "user_agent required"
-	}else if version == ""{
+	} else if version == "" {
 		response.ApiMessage = "version required"
-	}else{
+	} else {
 
-		response = cmsUserModel.Login(npm,password,device_id,user_agent,version)
+		response = cmsUserModel.Login(npm, password, device_id, user_agent, version)
 	}
 
-	c.JSON(http.StatusOK,response)
-
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *CmsUserController)CheckDeviceId (c* gin.Context){
+func (m *CmsUserController) CheckDeviceId(c *gin.Context) {
 
 	response := responseStruct
 
 	id := c.Query("id")
 	device_id := c.Query("device_id")
 
-	if id == ""{
+	if id == "" {
 		response.ApiMessage = "id required"
-	}else if device_id == ""{
+	} else if device_id == "" {
 		response.ApiMessage = "device_id required"
-	}else{
-		response = cmsUserModel.CheckDeviceId(id,device_id)
+	} else {
+		response = cmsUserModel.CheckDeviceId(id, device_id)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *CmsUserController)UserLogListing (c* gin.Context){
+func (m *CmsUserController) UserLogListing(c *gin.Context) {
 
 	response := responseStruct
 
@@ -68,13 +68,13 @@ func (m *CmsUserController)UserLogListing (c* gin.Context){
 
 	if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else{
-		response = cmsUserModel.ActivityUser(id_cms_users,limit,offset)
+	} else {
+		response = cmsUserModel.ActivityUser(id_cms_users, limit, offset)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *CmsUserController)PerformaIndicatorUser (c* gin.Context){
+func (m *CmsUserController) PerformaIndicatorUser(c *gin.Context) {
 
 	response := responseStruct
 
@@ -84,17 +84,17 @@ func (m *CmsUserController)PerformaIndicatorUser (c* gin.Context){
 
 	if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if inputDate == ""{
+	} else if inputDate == "" {
 		response.ApiMessage = "inputDate required"
-	}else if inputDateBulanKemarin == ""{
+	} else if inputDateBulanKemarin == "" {
 		response.ApiMessage = "inputDateBulanKemarin required"
-	}else{
-		response = cmsUserModel.PerformaIndicator(id_cms_users,inputDate,inputDateBulanKemarin)
+	} else {
+		response = cmsUserModel.PerformaIndicator(id_cms_users, inputDate, inputDateBulanKemarin)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
-func (m *CmsUserController)Rekap (c* gin.Context){
+func (m *CmsUserController) Rekap(c *gin.Context) {
 
 	response := responseStruct
 
@@ -104,14 +104,52 @@ func (m *CmsUserController)Rekap (c* gin.Context){
 
 	if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
-	}else if inputDate == ""{
+	} else if inputDate == "" {
 		response.ApiMessage = "inputDate required"
-	}else if input_id_mst_outlet == ""{
+	} else if input_id_mst_outlet == "" {
 		response.ApiMessage = "input_id_mst_outlet required"
-	}else{
-		response = cmsUserModel.RekapActivity(id_cms_users,inputDate,input_id_mst_outlet)
+	} else {
+		response = cmsUserModel.RekapActivity(id_cms_users, inputDate, input_id_mst_outlet)
 	}
-	c.JSON(http.StatusOK,response)
+	c.JSON(http.StatusOK, response)
 
 }
 
+func (m *CmsUserController) ChangePassword(c *gin.Context) {
+
+	response := responseStruct
+
+	id_cms_users := c.PostForm("id_cms_users")
+	password_lama := c.PostForm("password_lama")
+	password_baru := c.PostForm("password_baru")
+
+	if id_cms_users == "" {
+		response.ApiMessage = "id_cms_users required"
+	} else if password_lama == "" {
+		response.ApiMessage = "password_lama required"
+	} else if password_baru == "" {
+		response.ApiMessage = "password_baru required"
+	} else {
+		response = cmsUserModel.ChangePassword(id_cms_users, password_lama, password_baru)
+	}
+
+	c.JSON(http.StatusOK, response)
+}
+
+func (m *CmsUserController) ActivityList(c *gin.Context) {
+
+	response := responseStruct
+
+	id_cms_users := c.Query("id_cms_users")
+	activity_schedule_start_date := c.Query("activity_schedule_start_date")
+
+	if id_cms_users == "" {
+		response.ApiMessage = "id_cms_users required"
+	} else if activity_schedule_start_date == "" {
+		response.ApiMessage = "activity_schedule_start_date"
+	} else {
+		response = cmsUserModel.ActivityListing(id_cms_users, activity_schedule_start_date)
+	}
+
+	c.JSON(http.StatusOK, response)
+}

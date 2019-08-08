@@ -182,9 +182,9 @@ func (m *ContactModels) ContactCreate(modul string, id_convert string, nik strin
 		}
 
 		go contactColabAdd()
-		go contactPhoneCreate()
-		go contactAddressCreate()
-		go contactAdditionalCreate()
+		contactPhoneCreate()
+		contactAddressCreate()
+		contactAdditionalCreate()
 		go checkModul()
 		go logCreate()
 
@@ -480,9 +480,9 @@ func (m *ContactModels) ContactUpdate(id_contact string, nik string, first_name 
 			_ = idb.DB.Table("contact_additional").Where("id_contact = " + id_contact + "").Update(&contactAdditionalStruct).Error
 		}
 
-		go contactPhoneCreate()
-		go contactAddressCreate()
-		go contactAdditionalCreate()
+		contactPhoneCreate()
+		contactAddressCreate()
+		contactAdditionalCreate()
 
 		response.ApiStatus = 1
 		response.ApiMessage = succ

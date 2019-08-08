@@ -38,18 +38,7 @@ func UploadImage(type_foto string, id_data string, files multipart.File, header 
 	filename = string(b) + t.Format("20060102150405.0") + string(bc) + filename
 	folderID := hex.EncodeToString(pathIdMD5[:])
 
-	switch type_foto {
-	case "lead":
-		pathImage = "./pbc/img/lead/" + folderID + "/"
-	case "target":
-		pathImage = "./pbc/img/target/" + folderID + "/"
-	case "document":
-		pathImage = "./pbc/img/document/" + folderID + "/"
-
-	default:
-		pathImage = "./prv/img/all/" + folderID + "/"
-
-	}
+	pathImage = "./pbc/img/all/" + folderID + "/"
 
 	errMk := os.MkdirAll(pathImage, 0777)
 

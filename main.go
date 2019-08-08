@@ -2,6 +2,7 @@ package main
 
 import (
 	"./controllers"
+	"./middleware"
 	"./models"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -22,14 +23,23 @@ func main() {
 	pass, err := models.EncryptPassword("12345")
 	fmt.Println(pass, err)
 
-	v1 := router.Group("")
+	public := router.Group("")
 	{
 
-		v1.POST("/login", cmsUser.Login)
+		public.POST("/login", cmsUser.Login)
+		public.Static("/img", "./pbc/img/all/")
+
+	}
+
+	v1 := router.Group("")
+	v1.Use(middleware.Auth)
+	{
 		v1.GET("/check_android_id", cmsUser.CheckDeviceId)
 		v1.GET("/user_log_listing", cmsUser.UserLogListing)
 		v1.GET("/performa_indicator", cmsUser.PerformaIndicatorUser)
 		v1.GET("/rekap_activity", cmsUser.Rekap)
+		v1.POST("/change_password", cmsUser.ChangePassword)
+		v1.GET("/activity_listing", cmsUser.ActivityList)
 
 		v1.GET("/lead_listing", lead.LeadListing)
 		v1.GET("/lead_listing_visit", lead.LeadListingVisit)

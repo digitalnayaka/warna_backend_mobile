@@ -606,7 +606,7 @@ func (m *LeadModels) LeadCreate(id_mst_outlet string, id_mst_data_source string,
 
 		}
 
-		go createOther()
+		createOther()
 
 		response.ApiStatus = 1
 		response.ApiMessage = succ
@@ -750,7 +750,7 @@ func (m *LeadModels) LeadUpdate(id_lead string, id_mst_outlet string, id_mst_dat
 
 		}
 
-		go updateOther()
+		updateOther()
 
 		response.ApiStatus = 1
 		response.ApiMessage = succ

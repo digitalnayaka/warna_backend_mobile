@@ -107,8 +107,9 @@ func (m *OrderModels) OrderCreate(
 	orderCreateStruct.IdOrderMstStatus = id_order_mst_status_c
 	orderCreateStruct.StatusAddress = status_address
 	orderCreateStruct.Survey = survey
+	orderCreateStruct.NoOrder = "DummyNoOrder"
 
-	fmt.Println(orderCreateStruct)
+	fmt.Println(orderCreateStruct.Survey)
 
 	err := idb.DB.Table("order").Create(&orderCreateStruct).Error
 
@@ -116,6 +117,9 @@ func (m *OrderModels) OrderCreate(
 
 		response.ApiMessage = errDBAdd
 	} else {
+
+		_ = idb.DB.Exec("update " + order + " set no_order = (SELECT concat(to_char(now(),'YYYYMM'), 'OR' , " +
+			"LPAD( cast((select count(id)+1 from " + order + " where created_at >= now()::date) as text),6,'0'))) where id = " + fmt.Sprint(orderCreateStruct.Id) + "").RowsAffected
 
 		orderUfiCreate := func() {
 
@@ -195,13 +199,14 @@ func (m *OrderModels) OrderCreate(
 
 		}
 
-		go orderUfiCreate()
-		go orderLoanCreate()
-		go orderSurety()
+		orderUfiCreate()
+		orderLoanCreate()
+		orderSurety()
 		go logCreate()
 
 		response.ApiStatus = 1
 		response.ApiMessage = succ
+		response.Data = orderCreateStruct.Id
 	}
 
 	return response
@@ -214,7 +219,7 @@ func (m *OrderModels) OrderDetail(id_order string) structs.JsonResponse {
 	orderInfoStruct := structs.OrderInfoDetail{}
 	orderUfiStruct := structs.OrderProductUfiDetail{}
 	orderLoanStruct := structs.OrderLoan{}
-	orderSuretyStruct := structs.OrderSurety{}
+	orderSuretyStruct := structs.OrderSuretyDetail{}
 	orderContactDetailStruct := structs.ContactDetailInfo{}
 
 	err := idb.DB.Raw("select a.id ,a.id_contact , b.datasource as mst_data_source_datasource , " +
@@ -243,7 +248,7 @@ func (m *OrderModels) OrderDetail(id_order string) structs.JsonResponse {
 		response.ApiMessage = errDB
 	} else {
 
-		_ = idb.DB.Raw("select b.year as mst_unit_year , b.kode_unit as mst_unit_kode_unit , " +
+		_ = idb.DB.Raw("select a.id , b.year as mst_unit_year , b.kode_unit as mst_unit_kode_unit , " +
 			"b.merk as mst_unit_merk , b.type as mst_unit_type , b.model as mst_unit_model , " +
 			"b.otr as mst_unit_otr , a.nopol , a.tax_status , a.owner , a.otr_taksasi , a.nomor_taksasi " +
 			"from order_product_ufi a " +
@@ -252,7 +257,11 @@ func (m *OrderModels) OrderDetail(id_order string) structs.JsonResponse {
 			"where a.id_order = " + id_order + "").Scan(&orderUfiStruct).Error
 
 		_ = idb.DB.Table("order_loan").Where("id_order = " + id_order + "").First(&orderLoanStruct).Error
-		_ = idb.DB.Table("order_surety").Where("id_order = " + id_order + "").First(&orderSuretyStruct).Error
+		_ = idb.DB.Table("order_surety a").Select("a.* , b.job as mst_job_job , " +
+			"c.status as contact_mst_status_employee_status").
+			Joins("left join mst_job b on b.id = a.id_mst_job").
+			Joins("left join contact_mst_status_employee c on c.id = a.id_contact_mst_status_employee").
+			Where("a.id_order = " + id_order + "").First(&orderSuretyStruct).Error
 
 		contactModel := ContactModels{}
 		responseContact := contactModel.ContactDetail(fmt.Sprint(orderInfoStruct.IdContact))
@@ -455,24 +464,34 @@ func (m *OrderModels) OrderOTRUpdate(id string, otr_taksasi string, nomor_taksas
 
 	response := responseStruct
 	orderUfiStruct := structs.OrderUfi{}
+	orderUfiCheck := structs.OrderUfi{}
 
-	otr_taksasi_c, _ := strconv.Atoi(otr_taksasi)
-	id_cms_users_c, _ := strconv.ParseInt(id_cms_users, 10, 64)
+	check := idb.DB.Raw("select * from order_product_ufi where id = " + id + " " +
+		"and otr_taksasi is null").Scan(&orderUfiCheck).RecordNotFound()
 
-	orderUfiStruct.OtrTaksasi = otr_taksasi_c
-	orderUfiStruct.NomorTaksasi = nomor_taksasi
-	orderUfiStruct.UpdatedBy = id_cms_users_c
-	orderUfiStruct.UpdatedAt = GetTimeNow()
+	if check {
 
-	err := idb.DB.Where("id = " + id + "").Update(&orderUfiStruct)
+		otr_taksasi_c, _ := strconv.Atoi(otr_taksasi)
+		id_cms_users_c, _ := strconv.ParseInt(id_cms_users, 10, 64)
 
-	if err != nil {
+		orderUfiStruct.OtrTaksasi = otr_taksasi_c
+		orderUfiStruct.NomorTaksasi = nomor_taksasi
+		orderUfiStruct.UpdatedBy = id_cms_users_c
+		orderUfiStruct.UpdatedAt = GetTimeNow()
 
-		response.ApiMessage = errDBUpdate
+		err := idb.DB.Table("order_product_ufi").Where("id = " + id + "").Update(&orderUfiStruct).Error
+
+		if err != nil {
+
+			response.ApiMessage = errDBUpdate
+		} else {
+
+			response.ApiStatus = 1
+			response.ApiMessage = succ
+		}
 	} else {
 
-		response.ApiStatus = 1
-		response.ApiMessage = succ
+		response.ApiMessage = "OTR tidak dapat dirubah lagi"
 	}
 
 	return response

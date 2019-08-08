@@ -267,6 +267,7 @@ func (m *OrderController) OrderOTRUpdate(c *gin.Context) {
 		response = orderModels.OrderOTRUpdate(id, otr_taksasi, nomor_taksasi, id_cms_users)
 	}
 
+	c.JSON(http.StatusOK, response)
 }
 
 func (m *OrderController) OrderSearch(c *gin.Context) {
