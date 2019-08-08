@@ -72,8 +72,8 @@ type OrderSurety struct {
 	IdContactMstStatusEmployee int64  `gorm:"default:'null'" json:"id_contact_mst_status_employee"`
 	Position                   string `gorm:"default:'null'" json:"position"`
 	WorkingTime                int    `json:"working_time"`
-	Income                     int    `gorm:"json:"income"`
-	Outlay                     int    `gorm:"json:"outlay"`
+	Income                     int    `json:"income"`
+	Outlay                     int    `json:"outlay"`
 	IdCmsUsers                 int64  `gorm:"default:'null'" json:"id_cms_users"`
 	UpdatedBy                  int64  `gorm:"default:'null'" json:"updated_by"`
 }
@@ -91,8 +91,8 @@ type OrderSuretyDetail struct {
 	IdContactMstStatusEmployee     int64  `gorm:"default:'null'" json:"id_contact_mst_status_employee"`
 	Position                       string `gorm:"default:'null'" json:"position"`
 	WorkingTime                    int    `json:"working_time"`
-	Income                         int    `gorm:"json:"income"`
-	Outlay                         int    `gorm:"json:"outlay"`
+	Income                         int    `json:"income"`
+	Outlay                         int    `json:"outlay"`
 	IdCmsUsers                     int64  `gorm:"default:'null'" json:"id_cms_users"`
 	UpdatedBy                      int64  `gorm:"default:'null'" json:"updated_by"`
 	MstJobJob                      string `json:"mst_job_job"`

@@ -257,11 +257,19 @@ func (m *OrderModels) OrderDetail(id_order string) structs.JsonResponse {
 			"where a.id_order = " + id_order + "").Scan(&orderUfiStruct).Error
 
 		_ = idb.DB.Table("order_loan").Where("id_order = " + id_order + "").First(&orderLoanStruct).Error
-		_ = idb.DB.Table("order_surety a").Select("a.* , b.job as mst_job_job , " +
-			"c.status as contact_mst_status_employee_status").
-			Joins("left join mst_job b on b.id = a.id_mst_job").
-			Joins("left join contact_mst_status_employee c on c.id = a.id_contact_mst_status_employee").
-			Where("a.id_order = " + id_order + "").First(&orderSuretyStruct).Error
+		//_ = idb.DB.Table("order_surety a").Select(" a.* , b.job as mst_job_job , " +
+		//	"c.status as contact_mst_status_employee_status").
+		//	Joins("left join mst_job b on b.id = a.id_mst_job").
+		//	Joins("left join contact_mst_status_employee c on c.id = a.id_contact_mst_status_employee").
+		//	Where("a.id_order = " + id_order + "").First(&orderSuretyStruct).Error
+
+		_ = idb.DB.Raw("select a.* , b.job as mst_job_job , c.status as contact_mst_status_employee_status " +
+			"from order_surety a " +
+			"left join mst_job b " +
+			"on b.id = a.id_mst_job " +
+			"left join contact_mst_status_employee c " +
+			"on c.id = a.id_contact_mst_status_employee " +
+			"where a.id_order = " + id_order + "").Scan(&orderSuretyStruct).Error
 
 		contactModel := ContactModels{}
 		responseContact := contactModel.ContactDetail(fmt.Sprint(orderInfoStruct.IdContact))
