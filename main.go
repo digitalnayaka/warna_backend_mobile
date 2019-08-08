@@ -11,7 +11,8 @@ import (
 
 func main() {
 
-	//gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(gin.ReleaseMode)
+
 	cmsUser := new(controllers.CmsUserController)
 	lead := new(controllers.LeadController)
 	target := new(controllers.TargetController)
