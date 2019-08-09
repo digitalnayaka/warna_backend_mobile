@@ -3,15 +3,18 @@ package main
 import (
 	"./controllers"
 	"./middleware"
-	"./models"
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
 func main() {
 
 	gin.SetMode(gin.ReleaseMode)
+
+	log.SetOutput(gin.DefaultWriter)
+	log.SetOutput(gin.DefaultErrorWriter)
+	log.Println("Warna Backend Mobile")
 
 	cmsUser := new(controllers.CmsUserController)
 	lead := new(controllers.LeadController)
@@ -20,9 +23,6 @@ func main() {
 	contact := new(controllers.ContactController)
 	order := new(controllers.OrderController)
 	router := gin.Default()
-
-	pass, err := models.EncryptPassword("12345")
-	fmt.Println(pass, err)
 
 	public := router.Group("")
 	{
@@ -41,6 +41,7 @@ func main() {
 		v1.GET("/rekap_activity", cmsUser.Rekap)
 		v1.POST("/change_password", cmsUser.ChangePassword)
 		v1.GET("/activity_listing", cmsUser.ActivityList)
+		v1.POST("/logout", cmsUser.Logout)
 
 		v1.GET("/lead_listing", lead.LeadListing)
 		v1.GET("/lead_listing_visit", lead.LeadListingVisit)

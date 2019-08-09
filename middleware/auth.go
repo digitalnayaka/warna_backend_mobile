@@ -24,7 +24,7 @@ func Auth(c *gin.Context) {
 	})
 
 	if token != nil && err == nil {
-		fmt.Println("token verified")
+		//fmt.Println("token verified")
 	} else {
 		response.ApiStatus = 0
 		response.ApiMessage = "not authorized " + err.Error()

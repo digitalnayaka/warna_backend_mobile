@@ -41,6 +41,17 @@ func (m *CmsUserController) Login(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 
 }
+func (m *CmsUserController) Logout(c *gin.Context) {
+
+	useragent := c.PostForm("useragent")
+	description := c.PostForm("description")
+	id_cms_users := c.PostForm("id_cms_users")
+	version := c.PostForm("version")
+
+	response := cmsUserModel.Logout(useragent, description, id_cms_users, version)
+
+	c.JSON(http.StatusOK, response)
+}
 func (m *CmsUserController) CheckDeviceId(c *gin.Context) {
 
 	response := responseStruct

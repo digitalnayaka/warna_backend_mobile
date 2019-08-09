@@ -106,6 +106,38 @@ func (m *CmsUser) Login(npm string, password string, device_id string, useragent
 	return response
 }
 
+func (m *CmsUser) Logout(useragent string, description string, id_cms_users string, version string) structs.JsonResponse {
+
+	response := responseStruct
+
+	userlogs := func() {
+
+		userlogsStruct := structs.UserLogs{}
+
+		id_cms_users_c, _ := strconv.ParseInt(id_cms_users, 10, 64)
+
+		userlogsStruct.IdCmsUsers = id_cms_users_c
+		userlogsStruct.CreatedAt = GetTimeNow()
+		userlogsStruct.Description = "Logout"
+		userlogsStruct.Useragent = useragent
+		userlogsStruct.Version = version
+
+		err := idb.DB.Table("user_logs").Create(&userlogsStruct).Error
+
+		if err != nil {
+
+			response.ApiMessage = errDBAdd
+		} else {
+
+			response.ApiStatus = 1
+			response.ApiMessage = succ
+		}
+	}
+
+	userlogs()
+	return response
+}
+
 func (m *CmsUser) CheckDeviceId(id string, devicde_id string) structs.JsonResponse {
 
 	deviceCheck := cmsUserStruct
