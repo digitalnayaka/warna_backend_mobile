@@ -5,20 +5,19 @@ import (
 )
 
 type MstModels struct {
-
 }
 
-func (m *MstModels)MstLogStatus()structs.JsonResponse{
+func (m *MstModels) MstLogStatus() structs.JsonResponse {
 
 	mstLogStatusStruct := []structs.MstLogStatus{}
 	response := responseStruct
 	response.Data = mstLogStatusStruct
 
-	err := idb.DB.Table("mst_log_status").Find(&mstLogStatusStruct).Error
+	err := idb.DB.Table("mst_log_status").Order("status asc").Find(&mstLogStatusStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 		response.ApiMessage = succ
 		response.Data = mstLogStatusStruct
@@ -27,18 +26,17 @@ func (m *MstModels)MstLogStatus()structs.JsonResponse{
 	return response
 }
 
-
-func (m *MstModels)MstReligion()structs.JsonResponse{
+func (m *MstModels) MstReligion() structs.JsonResponse {
 
 	mstStruct := []structs.MstReligion{}
 	response := responseStruct
 	response.Data = mstStruct
 
-	err := idb.DB.Table("mst_religion").Find(&mstStruct).Error
+	err := idb.DB.Table("mst_religion").Order("agama asc").Find(&mstStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 		response.ApiMessage = succ
 		response.Data = mstStruct
@@ -46,17 +44,17 @@ func (m *MstModels)MstReligion()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)ContactMstStatusMarital()structs.JsonResponse{
+func (m *MstModels) ContactMstStatusMarital() structs.JsonResponse {
 
 	mstStruct := []structs.ContactMstStatusMarital{}
 	response := responseStruct
 	response.Data = mstStruct
 
-	err := idb.DB.Table("contact_mst_status_marital").Find(&mstStruct).Error
+	err := idb.DB.Table("contact_mst_status_marital").Order("status asc").Find(&mstStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 		response.ApiMessage = succ
 		response.Data = mstStruct
@@ -64,17 +62,17 @@ func (m *MstModels)ContactMstStatusMarital()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)MstPlace()structs.JsonResponse{
+func (m *MstModels) MstPlace() structs.JsonResponse {
 
 	mstStruct := []structs.MstPlace{}
 	response := responseStruct
 	response.Data = mstStruct
 
-	err := idb.DB.Table("contact_mst_status_place").Find(&mstStruct).Error
+	err := idb.DB.Table("contact_mst_status_place").Order("status asc").Find(&mstStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 		response.ApiMessage = succ
 		response.Data = mstStruct
@@ -82,17 +80,17 @@ func (m *MstModels)MstPlace()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)ContactMstStatusEmployee()structs.JsonResponse{
+func (m *MstModels) ContactMstStatusEmployee() structs.JsonResponse {
 
 	mstStruct := []structs.ContactMstStatusEmployee{}
 	response := responseStruct
 	response.Data = mstStruct
 
-	err := idb.DB.Table("contact_mst_status_employee").Find(&mstStruct).Error
+	err := idb.DB.Table("contact_mst_status_employee").Order("status asc").Find(&mstStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 		response.ApiMessage = succ
 		response.Data = mstStruct
@@ -101,18 +99,17 @@ func (m *MstModels)ContactMstStatusEmployee()structs.JsonResponse{
 	return response
 }
 
-
-func (m *MstModels)MstVisumStatus()structs.JsonResponse{
+func (m *MstModels) MstVisumStatus() structs.JsonResponse {
 
 	mstVisumStatusStruct := []structs.MstVisumStatus{}
 	response := responseStruct
 	response.Data = mstVisumStatusStruct
 
-	err := idb.DB.Table("mst_visum_status").Find(&mstVisumStatusStruct).Error
+	err := idb.DB.Table("mst_visum_status").Order("status asc").Find(&mstVisumStatusStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 
 		response.ApiMessage = succ
@@ -121,7 +118,7 @@ func (m *MstModels)MstVisumStatus()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)MstLogDesc(id_mst_log_status string)structs.JsonResponse{
+func (m *MstModels) MstLogDesc(id_mst_log_status string) structs.JsonResponse {
 
 	mstLogDescStruct := []structs.MstLogDesc{}
 	response := responseStruct
@@ -129,16 +126,16 @@ func (m *MstModels)MstLogDesc(id_mst_log_status string)structs.JsonResponse{
 
 	err := idb.DB.Table("mst_log_desc")
 
-	if id_mst_log_status != ""{
+	if id_mst_log_status != "" {
 
-		err = err.Where("id_mst_log_status = "+id_mst_log_status+"")
+		err = err.Where("id_mst_log_status = " + id_mst_log_status + "")
 	}
 
-	errx := err.Find(&mstLogDescStruct).Error
+	errx := err.Order("description asc").Find(&mstLogDescStruct).Error
 
 	if errx != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 
 		response.ApiMessage = succ
@@ -147,17 +144,17 @@ func (m *MstModels)MstLogDesc(id_mst_log_status string)structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)MstJob()structs.JsonResponse{
+func (m *MstModels) MstJob() structs.JsonResponse {
 
 	mstJobStruct := []structs.MstJob{}
 	response := responseStruct
 	response.Data = mstJobStruct
 
-	err := idb.DB.Table("mst_job").Find(&mstJobStruct).Error
+	err := idb.DB.Table("mst_job").Order("job asc").Find(&mstJobStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 
 		response.ApiMessage = succ
@@ -166,17 +163,17 @@ func (m *MstModels)MstJob()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)MstDatasource()structs.JsonResponse{
+func (m *MstModels) MstDatasource() structs.JsonResponse {
 
 	mstDatasourceStruct := []structs.MstDataSource{}
 	response := responseStruct
 	response.Data = mstDatasourceStruct
 
-	err := idb.DB.Table("mst_data_source").Find(&mstDatasourceStruct).Error
+	err := idb.DB.Table("mst_data_source").Order("datasource asc").Find(&mstDatasourceStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 
 		response.ApiMessage = succ
@@ -185,17 +182,17 @@ func (m *MstModels)MstDatasource()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)MstCategoryAddress()structs.JsonResponse{
+func (m *MstModels) MstCategoryAddress() structs.JsonResponse {
 
 	mstCategoryAddressStruct := []structs.MstCategoryAddress{}
 	response := responseStruct
 	response.Data = mstCategoryAddressStruct
 
-	err := idb.DB.Table("mst_category_address").Find(&mstCategoryAddressStruct).Error
+	err := idb.DB.Table("mst_category_address").Order("category asc").Find(&mstCategoryAddressStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 
 		response.ApiMessage = succ
@@ -204,7 +201,7 @@ func (m *MstModels)MstCategoryAddress()structs.JsonResponse{
 
 	return response
 }
-func (m *MstModels)MstUnitUfi(id_mst_branch string , merk string , year string)structs.JsonResponse{
+func (m *MstModels) MstUnitUfi(id_mst_branch string, merk string, year string) structs.JsonResponse {
 
 	mstUnitUfiStruct := []structs.MstUnitUfi{}
 	response := responseStruct
@@ -213,27 +210,27 @@ func (m *MstModels)MstUnitUfi(id_mst_branch string , merk string , year string)s
 	err := idb.DB.Table("mst_unit").Select("mst_unit.* , mst_branch.branch_name as mst_branch_branch_name").
 		Joins("left join mst_branch on mst_branch.id = mst_unit.id_mst_branch")
 
-	if id_mst_branch != ""{
+	if id_mst_branch != "" {
 
-		err = err.Where("mst_unit.id_mst_branch = "+id_mst_branch+"")
+		err = err.Where("mst_unit.id_mst_branch = " + id_mst_branch + "")
 	}
 
 	if merk != "" {
 
-		err = err.Where("mst_unit.merk like '%"+merk+"%'")
+		err = err.Where("mst_unit.merk like '%" + merk + "%'")
 	}
 
-	if year != ""{
+	if year != "" {
 
-		err = err.Where("mst_unit.year = "+year+"")
+		err = err.Where("mst_unit.year = " + year + "")
 	}
 
-	err = err.Scan(&mstUnitUfiStruct)
+	err = err.Order("mst_unit.type asc").Scan(&mstUnitUfiStruct)
 	errx := err.Error
 
 	if errx != nil {
 		response.ApiMessage = errDB
-	}else{
+	} else {
 		response.ApiStatus = 1
 
 		response.ApiMessage = succ
@@ -242,17 +239,16 @@ func (m *MstModels)MstUnitUfi(id_mst_branch string , merk string , year string)s
 
 	return response
 }
-func (m *MstModels)MstCabangFif(branch_name string , pos_name string)structs.JsonResponse{
+func (m *MstModels) MstCabangFif(branch_name string, pos_name string) structs.JsonResponse {
 
 	response := responseStruct
 	cabangFif := []structs.MstCabangFif{}
 
-
 	err := idb.DB.Table("mst_cabang_fif").Select("distinct on (branch_name) *")
 
-	if branch_name != ""{
+	if branch_name != "" {
 
-		err = err.Where("branch_name ilike '%"+branch_name+"%'")
+		err = err.Where("branch_name ilike '%" + branch_name + "%'")
 	}
 
 	err = err.Order("branch_name asc").Find(&cabangFif)
@@ -264,16 +260,15 @@ func (m *MstModels)MstCabangFif(branch_name string , pos_name string)structs.Jso
 
 	return response
 }
-func (m *MstModels)MstNeed()structs.JsonResponse{
+func (m *MstModels) MstNeed() structs.JsonResponse {
 
 	response := responseStruct
 	needStruct := []structs.MstNeed{}
 
-	_ = idb.DB.Table("mst_need").Find(&needStruct).Error
+	_ = idb.DB.Table("mst_need").Order("need asc").Find(&needStruct).Error
 
 	response.ApiStatus = 1
 	response.Data = needStruct
 	response.ApiMessage = succ
 	return response
 }
-
