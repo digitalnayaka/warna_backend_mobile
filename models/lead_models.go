@@ -70,8 +70,10 @@ func (m *LeadModels) LeadListingVisit(types string, id_cms_users string, limit s
 	response.Data = leadListingStruct
 
 	null_visit := "is not null"
+	order_by := "f.created_at desc"
 	if types == "new" {
 		null_visit = "is null and id_lead_mst_status = 1"
+		order_by = "a.created_at desc"
 	}
 
 	err := idb.DB.Raw("select a.id , a.first_name , a.last_name , a.id_lead_mst_status , b.recall , " +
@@ -85,7 +87,7 @@ func (m *LeadModels) LeadListingVisit(types string, id_cms_users string, limit s
 		"and f.id = (select max(g.id) from lead_visum g where g.id_lead = f.id_lead and g.id_cms_users =f.id_cms_users ) " +
 		"left join mst_visum_status h " +
 		"on h.id = f.id_mst_visum_status " +
-		"where a.id_cms_users = " + id_cms_users + " and f.id " + null_visit + " and id_lead_mst_status <> 6 order by a.updated_at desc, a.created_at desc")
+		"where a.id_cms_users = " + id_cms_users + " and f.id " + null_visit + " and id_lead_mst_status <> 6 order by " + order_by + "")
 
 	if limit != "" {
 		limits, _ := strconv.Atoi(limit)
