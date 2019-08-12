@@ -29,6 +29,7 @@ func main() {
 
 		public.POST("/login", cmsUser.Login)
 		public.Static("/img", "./pbc/img/all/")
+		public.Static("/updateapp", "./pbc/update/")
 
 	}
 
