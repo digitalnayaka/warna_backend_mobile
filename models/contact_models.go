@@ -218,7 +218,7 @@ func (m *ContactModels) ContactList(id_cms_users string, limit string, offset st
 		"left join order_mst_status d " +
 		"on d.id = c.id_order_mst_status " +
 		"where a.id_cms_users = " + id_cms_users + " " +
-		"order by b.updated_at desc , b.created_at desc")
+		"order by b.created_at desc , b.updated_at desc")
 
 	if limit != "" {
 
@@ -513,7 +513,7 @@ func (m *ContactModels) ContactSearch(id_cms_users string, search string) struct
 		"left join order_mst_status d " +
 		"on d.id = c.id_order_mst_status " +
 		"where a.id_cms_users = " + id_cms_users + " and concat(b.first_name , ' ', b.last_name) ilike '%" + search + "%'" +
-		"order by b.updated_at desc , b.created_at desc").Scan(&contactListStruct).Error
+		"order by b.updated_at desc , b.created_at desc limit 6 ").Scan(&contactListStruct).Error
 
 	if err != nil {
 
@@ -524,6 +524,32 @@ func (m *ContactModels) ContactSearch(id_cms_users string, search string) struct
 		response.ApiStatus = 1
 		response.ApiMessage = succ
 		response.Data = contactListStruct
+	}
+
+	return response
+}
+
+func (m *ContactModels) ContactCollabCreate(id_cms_users string, id_contact string) structs.JsonResponse {
+
+	contactCollabStruct := structs.ContactCollabCreate{}
+	response := responseStruct
+
+	id_cms_users_c, _ := strconv.ParseInt(id_cms_users, 10, 64)
+	id_contact_c, _ := strconv.ParseInt(id_contact, 10, 64)
+
+	contactCollabStruct.IdCmsUsers = id_cms_users_c
+	contactCollabStruct.IdContact = id_contact_c
+
+	err := idb.DB.Table("contact_collaborate").Create(&contactCollabStruct).Error
+
+	if err != nil {
+
+		response.ApiMessage = errDBAdd
+
+	} else {
+
+		response.ApiStatus = 1
+		response.ApiMessage = succ
 	}
 
 	return response

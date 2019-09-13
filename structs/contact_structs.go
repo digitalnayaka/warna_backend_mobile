@@ -161,3 +161,9 @@ type ContactCollabList struct {
 	CmsUsersName string `gorm:"default:'null'" json:"cms_users_name"`
 	CmsUsersNpm  string `gorm:"default:'null'" json:"cms_users_npm"`
 }
+
+type ContactCollabCreate struct {
+	Id         int64 `json:"id"`
+	IdContact  int64 `json:"id_contact"`
+	IdCmsUsers int64 `json:"id_cms_users"`
+}

@@ -472,7 +472,7 @@ func (m *TargetModels) TargetSearch(id_cms_users string, search string) structs.
 		"left join mst_visum_status h " +
 		"on h.id = f.id_mst_visum_status " +
 		"where a.id_cms_users = " + id_cms_users + " and  concat(a.first_name , ' ' , a.last_name , ' ' , a.hp_1 , ' ' , a.hp_2) ilike '%" + search + "%' order by a.first_name asc ," +
-		" a.updated_at desc,d.created_at desc , f.created_at desc  ").Scan(&targetListingStruct).Error
+		" a.updated_at desc,d.created_at desc , f.created_at desc  limit 6 ").Scan(&targetListingStruct).Error
 
 	if err != nil {
 		response.ApiStatus = 1

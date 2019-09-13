@@ -88,6 +88,8 @@ func main() {
 		v1.GET("/contact_mst_status_employee", mst.ContactMstStatusEmployee)
 		v1.GET("/mst_need_listing", mst.MstNeed)
 		v1.GET("/mst_cabang_fif", mst.MstCabangFif)
+		v1.GET("/mst_unit_merk_list", mst.MstUnitMerk)
+		v1.GET("/mst_unit_year_list", mst.MstUnitYear)
 
 		v1.GET("/check_add_contact", contact.CheckAddContact)
 		v1.POST("/contact_create", contact.ContactCreate)
@@ -98,6 +100,7 @@ func main() {
 		v1.POST("/contact_note_create", contact.ContactNoteCreate)
 		v1.GET("/contact_collaborate_listing", contact.ContactCollabList)
 		v1.GET("/contact_search", contact.ContactSearch)
+		v1.POST("/contact_collaborate_create", contact.ContactCollabCreate)
 
 		v1.GET("/order_listing_cfa", order.OrderListing)
 		v1.POST("/order_create", order.OrderCreate)
@@ -117,5 +120,5 @@ func main() {
 		c.String(http.StatusNotFound, "Not Found")
 	})
 
-	router.Run(":4002")
+	router.Run(":4003")
 }

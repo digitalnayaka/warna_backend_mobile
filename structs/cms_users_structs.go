@@ -19,6 +19,7 @@ type CmsUsersStruct struct {
 	MstOutletOutletName string `gorm:"default:'null'" json:"mst_outlet_outlet_name"`
 	IdMstBranch         int64  `gorm:"default:'null'" json:"id_mst_branch"`
 	CmsPrivilegesName   string `gorm:"default:'null'" json:"cms_privileges_name"`
+	BranchName          string `json:"branch_name"`
 }
 
 type UserAgreement struct {
@@ -48,34 +49,41 @@ type ListLogUser struct {
 }
 
 type PerformIndicator struct {
-	CountBrosur              int `json:"count_brosur"`
-	CountTele                int `json:"count_tele"`
-	CountNewdb               int `json:"count_newDB"`
-	CountOrder               int `json:"count_order"`
-	CountBooking             int `json:"count_booking"`
-	CountTeleblnkemarin      int `json:"count_teleBlnKemarin"`
-	CountNewdbblnkemarin     int `json:"count_newDBBlnKemarin"`
-	CountOrderbulankemarin   int `json:"count_orderBulanKemarin"`
-	CountTeletotal           int `json:"count_teleTotal"`
-	CountNewdbtotal          int `json:"count_newDBTotal"`
-	CountOrdertotal          int `json:"count_orderTotal"`
-	CountBookingtotal        int `json:"count_bookingTotal"`
-	CountBrosurbulankemarin  int `json:"count_brosurBulanKemarin"`
-	CountBrosurbulantotal    int `json:"count_brosurBulanTotal"`
-	CountVisum               int `json:"count_visum"`
-	CountVisumblnkemarin     int `json:"count_visumBlnKemarin"`
-	CountVisumtotal          int `json:"count_visumTotal"`
-	CountBookingbulankemarin int `json:"count_bookingBulanKemarin"`
+	CountBrosur              int              `json:"count_brosur"`
+	CountTele                int              `json:"count_tele"`
+	CountNewdb               int              `json:"count_newDB"`
+	CountOrder               int              `json:"count_order"`
+	CountBooking             int              `json:"count_booking"`
+	CountTeleblnkemarin      int              `json:"count_teleBlnKemarin"`
+	CountNewdbblnkemarin     int              `json:"count_newDBBlnKemarin"`
+	CountOrderbulankemarin   int              `json:"count_orderBulanKemarin"`
+	CountTeletotal           int              `json:"count_teleTotal"`
+	CountNewdbtotal          int              `json:"count_newDBTotal"`
+	CountOrdertotal          int              `json:"count_orderTotal"`
+	CountBookingtotal        int              `json:"count_bookingTotal"`
+	CountBrosurbulankemarin  int              `json:"count_brosurBulanKemarin"`
+	CountBrosurbulantotal    int              `json:"count_brosurBulanTotal"`
+	CountVisum               int              `json:"count_visum"`
+	CountVisumblnkemarin     int              `json:"count_visumBlnKemarin"`
+	CountVisumtotal          int              `json:"count_visumTotal"`
+	CountBookingbulankemarin int              `json:"count_bookingBulanKemarin"`
+	SuccessRate              float64          `json:"success_rate"`
+	Achievement              float64          `json:"achievement"`
+	TopUserBooking           []TopUserBooking `json:"top_user_booking"`
 }
 type Rekap struct {
-	CountBrosur        int `json:"count_brosur"`
-	CountTele          int `json:"count_tele"`
-	CountNewdb         int `json:"count_newDB"`
-	CountOrder         int `json:"count_order"`
-	CountBooking       int `json:"count_booking"`
-	CountVisum         int `json:"count_visum"`
-	CountOrderOutlet   int `json:"count_order_outlet"`
-	CountBookingOutlet int `json:"count_booking_outlet"`
+	CountBrosur        int     `json:"count_brosur"`
+	CountTele          int     `json:"count_tele"`
+	CountNewdb         int     `json:"count_newDB"`
+	CountOrder         int     `json:"count_order"`
+	CountBooking       int     `json:"count_booking"`
+	CountVisum         int     `json:"count_visum"`
+	CountOrderOutlet   int     `json:"count_order_outlet"`
+	CountBookingOutlet int     `json:"count_booking_outlet"`
+	SuccessRate        float64 `json:"success_rate"`
+	Achievement        float64 `json:"achievement"`
+	AchievementOutlet  float64 `json:"achievement_outlet"`
+	Productivity       float64 `json:"productivity"`
 }
 
 type ActivityList struct {

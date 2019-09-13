@@ -280,7 +280,7 @@ func (m *LeadModels) LeadVisum(id string, id_cms_users string) structs.JsonRespo
 		"on d.id_lead_visum = a.id " +
 		"left join mst_visum_status e " +
 		"on e.id = a.id_mst_visum_status " +
-		"where a.id_lead = " + id + " and a.id_cms_users = " + id_cms_users + "").Scan(&leadVisumStruct).Error
+		"where a.id_lead = " + id + " and a.id_cms_users = " + id_cms_users + " order by a.created_at desc").Scan(&leadVisumStruct).Error
 
 	if err != nil {
 		response.ApiMessage = errDB
@@ -855,7 +855,7 @@ func (m *LeadModels) LeadSearch(id_cms_users string, search string) structs.Json
 		"left join lead_phone h " +
 		"on h.id_lead = a.id and h.id = (select max(i.id) from lead_phone i where i.id_lead = h.id_lead) " +
 		"where concat(a.first_name,' ',a.last_name,' ',h.number) ilike '%" + search + "%' and a.id_cms_users = " + id_cms_users + " " +
-		"order by a.updated_at desc , d.created_at desc , a.first_name asc").Scan(&leadSearch).Error
+		"order by a.updated_at desc , d.created_at desc , a.first_name asc limit 6 ").Scan(&leadSearch).Error
 
 	if err != nil {
 		response.ApiStatus = 1

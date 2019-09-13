@@ -279,3 +279,25 @@ func (m *ContactController) ContactSearch(c *gin.Context) {
 
 	c.JSON(http.StatusOK, response)
 }
+
+func (m *ContactController) ContactCollabCreate(c *gin.Context) {
+
+	response := responseStruct
+
+	id_cms_users := c.PostForm("id_cms_users")
+	id_contact := c.PostForm("id_contact")
+
+	if id_cms_users == "" {
+
+		response.ApiMessage = "id_cms_users required"
+	} else if id_contact == "" {
+
+		response.ApiMessage = "id_contact required"
+
+	} else {
+
+		response = contactModel.ContactCollabCreate(id_cms_users, id_contact)
+	}
+
+	c.JSON(http.StatusOK, response)
+}

@@ -225,7 +225,7 @@ func (m *MstModels) MstUnitUfi(id_mst_branch string, merk string, year string) s
 		err = err.Where("mst_unit.year = " + year + "")
 	}
 
-	err = err.Order("mst_unit.type asc").Scan(&mstUnitUfiStruct)
+	err = err.Order("mst_unit.model asc").Scan(&mstUnitUfiStruct)
 	errx := err.Error
 
 	if errx != nil {
@@ -244,11 +244,14 @@ func (m *MstModels) MstCabangFif(branch_name string, pos_name string) structs.Js
 	response := responseStruct
 	cabangFif := []structs.MstCabangFif{}
 
-	err := idb.DB.Table("mst_cabang_fif").Select("distinct on (branch_name) *")
+	err := idb.DB.Table("mst_cabang_fif")
 
 	if branch_name != "" {
 
 		err = err.Where("branch_name ilike '%" + branch_name + "%'")
+	} else {
+
+		err = err.Select("distinct on (branch_name) *")
 	}
 
 	err = err.Order("branch_name asc").Find(&cabangFif)
@@ -271,4 +274,32 @@ func (m *MstModels) MstNeed() structs.JsonResponse {
 	response.Data = needStruct
 	response.ApiMessage = succ
 	return response
+}
+
+func (m *MstModels) MstUnitMerk(id_mst_branch string) structs.JsonResponse {
+
+	response := responseStruct
+	mstUnitUfiStruct := []structs.MstUnitMerk{}
+
+	idb.DB.Raw("select merk from mst_unit where id_mst_branch = " + id_mst_branch + " group by merk order by merk asc ").Scan(&mstUnitUfiStruct)
+
+	response.ApiStatus = 1
+	response.Data = mstUnitUfiStruct
+	response.ApiMessage = succ
+	return response
+
+}
+
+func (m *MstModels) MstUnitYear(id_mst_branch string, merk string) structs.JsonResponse {
+
+	response := responseStruct
+	mstUnitUfiStruct := []structs.MstUnitYear{}
+
+	idb.DB.Raw("select year from mst_unit  where id_mst_branch = " + id_mst_branch + " and merk ilike '%" + merk + "%' group by year order by year asc").Scan(&mstUnitUfiStruct)
+
+	response.ApiStatus = 1
+	response.Data = mstUnitUfiStruct
+	response.ApiMessage = succ
+	return response
+
 }

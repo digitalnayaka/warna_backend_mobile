@@ -92,6 +92,7 @@ func (m *CmsUserController) PerformaIndicatorUser(c *gin.Context) {
 	id_cms_users := c.Query("id")
 	inputDate := c.Query("inputDate")
 	inputDateBulanKemarin := c.Query("inputDateBulanKemarin")
+	mst_branch := c.Query("mst_branch")
 
 	if id_cms_users == "" {
 		response.ApiMessage = "id_cms_users required"
@@ -100,7 +101,7 @@ func (m *CmsUserController) PerformaIndicatorUser(c *gin.Context) {
 	} else if inputDateBulanKemarin == "" {
 		response.ApiMessage = "inputDateBulanKemarin required"
 	} else {
-		response = cmsUserModel.PerformaIndicator(id_cms_users, inputDate, inputDateBulanKemarin)
+		response = cmsUserModel.PerformaIndicator(id_cms_users, inputDate, inputDateBulanKemarin, mst_branch)
 	}
 	c.JSON(http.StatusOK, response)
 
