@@ -10,7 +10,7 @@ import (
 
 func main() {
 
-	gin.SetMode(gin.ReleaseMode)
+	//gin.SetMode(gin.ReleaseMode)
 
 	log.SetOutput(gin.DefaultWriter)
 	log.SetOutput(gin.DefaultErrorWriter)
@@ -120,5 +120,5 @@ func main() {
 		c.String(http.StatusNotFound, "Not Found")
 	})
 
-	router.Run(":4003")
+	router.Run(":4005")
 }

@@ -269,21 +269,24 @@ func (m *CmsUser) PerformaIndicator(id_cms_users string, inputDate string, input
 		"(SELECT count(target_visum.id)+(SELECT count(lead_visum.id) FROM lead_visum WHERE lead_visum.id_cms_users = " + id_cms_users + " and lead_visum.created_at::text ilike '%" + inputDate + "%') as total FROM target_visum WHERE target_visum.id_cms_users = " + id_cms_users + " and target_visum.created_at::text ilike '%" + inputDate + "%') as count_visum , " +
 		"(SELECT count(target_visum.id)+(SELECT count(lead_visum.id) FROM lead_visum WHERE lead_visum.id_cms_users = " + id_cms_users + " and lead_visum.created_at::text ilike '%" + inputDateBulanKemarin + "%') as total FROM target_visum WHERE target_visum.id_cms_users = " + id_cms_users + " and target_visum.created_at::text ilike '%" + inputDateBulanKemarin + "%') as count_visumBlnKemarin , " +
 		"(SELECT count(target_visum.id)+(SELECT count(lead_visum.id) FROM lead_visum WHERE lead_visum.id_cms_users = " + id_cms_users + ") as total FROM target_visum WHERE target_visum.id_cms_users = " + id_cms_users + ") as count_visumTotal , " +
-		"(select count(a.id) from " + order + " a where a.id_cms_users = " + id_cms_users + " and a.created_at::text ilike '%" + inputDateBulanKemarin + "%' and a.id_order_mst_status = 5) as count_bookingBulanKemarin ," +
-		"(select (round(" +
-		"((select count(id) from " + order + " where id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')::decimal /" +
-		"(" +
-		"nullif((select count(tem.*) from (" +
-		"select distinct(b.id_target) from target_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
-		"union " +
-		"select distinct(c.id_target) from target_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal + " +
-		"(select count(tem.*) from ( " +
-		"select distinct(b.id_lead) from lead_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
-		"union " +
-		"select distinct(c.id_lead) from lead_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal,0)::decimal" +
-		")::decimal)*100 " +
-		",3))::decimal as succ_rate) as success_rate," +
-		"(select(round((select count(id)/15::decimal as achievement from " + order + " where id_order_mst_status = 5 and id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')*100,1))) as achievement").Scan(&performaIndicatorStruct).Error
+		"(select count(a.id) from " + order + " a where a.id_cms_users = " + id_cms_users + " and a.created_at::text ilike '%" + inputDateBulanKemarin + "%' and a.id_order_mst_status = 5) as count_bookingBulanKemarin").Scan(&performaIndicatorStruct).Error
+
+	//achievement
+	//"(select (round(" +
+	//	"((select count(id) from " + order + " where id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')::decimal /" +
+	//	"(" +
+	//	"nullif((select count(tem.*) from (" +
+	//	"select distinct(b.id_target) from target_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
+	//	"union " +
+	//	"select distinct(c.id_target) from target_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal + " +
+	//	"(select count(tem.*) from ( " +
+	//	"select distinct(b.id_lead) from lead_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
+	//	"union " +
+	//	"select distinct(c.id_lead) from lead_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal,0)::decimal" +
+	//	")::decimal)*100 " +
+	//	",3))::decimal as succ_rate) as success_rate," +
+	//	"(select(round((select count(id)/15::decimal as achievement from " + order + " where id_order_mst_status = 5 and id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')*100,1))) as achievement"
+	//
 
 	idb.DB.Raw("select cms_users.id,cms_users.name , (select count(a.id) from " + order + " a where a.id_order_mst_status = 5 and id_cms_users = cms_users.id and a.created_at::text like '%" + inputDate + "%') total_booking , " +
 		"(select count(a.id) from mst_logs a where a.created_at::text like '%" + inputDate + "%' and a.id_cms_users = cms_users.id) total_activity from cms_users " +
@@ -343,23 +346,25 @@ func (m *CmsUser) RekapActivity(id_cms_users string, inputDate string, input_id_
 		"(select count(a.id) from " + order + " a where a.id_cms_users = " + id_cms_users + " and a.created_at::text ilike '%" + inputDate + "%' and a.id_order_mst_status = 5) as count_booking , " +
 		"(SELECT count(target_visum.id)+(SELECT count(lead_visum.id) FROM lead_visum WHERE lead_visum.id_cms_users = " + id_cms_users + " and lead_visum.created_at::text ilike '%" + inputDate + "%') as total FROM target_visum WHERE target_visum.id_cms_users = " + id_cms_users + " and target_visum.created_at::text ilike '%" + inputDate + "%') as count_visum , " +
 		"(select count(a.id) from " + order + " a where a.id_mst_outlet = " + input_id_mst_outlet + " and a.created_at::text ilike '%" + inputDate + "%') as count_order_outlet ," +
-		"(select count(a.id) from " + order + " a where a.id_mst_outlet = " + input_id_mst_outlet + " and a.created_at::text ilike '%" + inputDate + "%' and a.id_order_mst_status = 5) as count_booking_outlet ," +
-		"(select (round(((select count(*) from " + order + " where id_mst_outlet = " + input_id_mst_outlet + " and created_at::text like '%" + inputDate + "%' and id_order_mst_status = 5)::decimal/75)*100,1))::decimal) as achievement_outlet ," +
-		"(select (round(((select count(*) from " + order + " where id_mst_outlet = " + input_id_mst_outlet + " and created_at::text like '%" + inputDate + "%' and id_order_mst_status = 5)::decimal/(select count(*) from cms_users where id_mst_outlet = " + input_id_mst_outlet + " and status = 'Y')),1))::decimal) as productivity ," +
-		"(select (round(" +
-		"((select count(id) from " + order + " where id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')::decimal /" +
-		"(" +
-		"nullif((select count(tem.*) from (" +
-		"select distinct(b.id_target) from target_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
-		"union " +
-		"select distinct(c.id_target) from target_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal + " +
-		"(select count(tem.*) from ( " +
-		"select distinct(b.id_lead) from lead_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
-		"union " +
-		"select distinct(c.id_lead) from lead_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal,0)::decimal" +
-		")::decimal)*100 " +
-		",3))::decimal as succ_rate) as success_rate," +
-		"(select(round((select count(id)/15::decimal as achievement from " + order + " where id_order_mst_status = 5 and id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')*100,1))) as achievement").Scan(&rekapStruct).Error
+		"(select count(a.id) from " + order + " a where a.id_mst_outlet = " + input_id_mst_outlet + " and a.created_at::text ilike '%" + inputDate + "%' and a.id_order_mst_status = 5) as count_booking_outlet").Scan(&rekapStruct).Error
+
+	//achiment
+	//"(select (round(((select count(*) from " + order + " where id_mst_outlet = " + input_id_mst_outlet + " and created_at::text like '%" + inputDate + "%' and id_order_mst_status = 5)::decimal/75)*100,1))::decimal) as achievement_outlet ," +
+	//	"(select (round(((select count(*) from " + order + " where id_mst_outlet = " + input_id_mst_outlet + " and created_at::text like '%" + inputDate + "%' and id_order_mst_status = 5)::decimal/(select count(*) from cms_users where id_mst_outlet = " + input_id_mst_outlet + " and status = 'Y')),1))::decimal) as productivity ," +
+	//	"(select (round(" +
+	//	"((select count(id) from " + order + " where id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')::decimal /" +
+	//	"(" +
+	//	"nullif((select count(tem.*) from (" +
+	//	"select distinct(b.id_target) from target_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
+	//	"union " +
+	//	"select distinct(c.id_target) from target_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal + " +
+	//	"(select count(tem.*) from ( " +
+	//	"select distinct(b.id_lead) from lead_visum b where b.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%' " +
+	//	"union " +
+	//	"select distinct(c.id_lead) from lead_log c where c.id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%') as tem)::decimal,0)::decimal" +
+	//	")::decimal)*100 " +
+	//	",3))::decimal as succ_rate) as success_rate," +
+	//	"(select(round((select count(id)/15::decimal as achievement from " + order + " where id_order_mst_status = 5 and id_cms_users = " + id_cms_users + " and created_at::text like '%" + inputDate + "%')*100,1))) as achievement"
 
 	if err != nil {
 
